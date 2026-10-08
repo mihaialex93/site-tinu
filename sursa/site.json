@@ -1,0 +1,40 @@
+{
+  "_nota": "Datele reale ale site-ului. Orice valoare lăsată null apare pe pagină ca text marcat, iar pagina rămâne blocată la indexare.",
+
+  "brand": null,
+  "persoana": null,
+  "zona": null,
+  "localitati": null,
+
+  "telefon_afisat": null,
+  "telefon_international": null,
+  "whatsapp": null,
+  "email": null,
+  "program": null,
+  "program_zile": null,
+  "program_deschidere": null,
+  "program_inchidere": null,
+  "raspuns": null,
+  "cost_evaluare": null,
+
+  "ani_experienta": null,
+  "industrii": null,
+  "linkedin": null,
+  "foto": null,
+  "cazuri": null,
+
+  "domeniu": null,
+
+  "firma_denumire": null,
+  "firma_cui": null,
+  "firma_reg_com": null,
+  "sediu_strada": null,
+  "sediu_localitate": null,
+  "sediu_judet": null,
+  "sediu_cod_postal": null,
+
+  "politica_url": null,
+
+  "web3forms_cheie": null,
+  "cloudflare_analytics_token": null
+}

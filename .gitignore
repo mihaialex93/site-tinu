@@ -1,0 +1,6 @@
+# fișiere generate și jurnale locale
+__pycache__/
+sursa/dist/
+sursa/preview/
+urcare-github.log
+mesaj-commit.txt
