@@ -543,8 +543,8 @@ def html_dock():
 
 
 def html_body(preview):
-    draft = ('<div class="draft-bar"><div class="wrap">Versiune de lucru. Textele marcate așteaptă datele reale, '
-             'iar pagina rămâne blocată la indexare până la completarea lor.</div></div>\n') if DRAFT else ""
+    # Bara „Versiune de lucru” a fost scoasă la cererea proprietarului pe 20 octombrie 2026. Marcajele și noindex rămân.
+    draft = ""
     parts = [html_header(), "<main id=\"continut\">", html_hero(), html_problems(), html_apps(), html_usual(), html_facilities(),
              html_process(), html_cases(), html_about(), html_faq(), "</main>", html_contact(), html_dock()]
     return f'<a class="skip" href="#continut">Salt la conținut</a>\n{draft}' + "\n".join(parts)

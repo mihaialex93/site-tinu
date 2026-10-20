@@ -2,14 +2,14 @@
   "_nota": "Datele reale ale site-ului. Orice valoare lăsată null apare pe pagină ca text marcat, iar pagina rămâne blocată la indexare.",
 
   "brand": "Soluții Vest",
-  "persoana": null,
+  "persoana": "Tinu",
   "zona": "Zona de Vest",
   "localitati": null,
 
   "telefon_afisat": "+40 720 058 673",
   "telefon_international": "+40720058673",
   "whatsapp": "+40720058673",
-  "email": null,
+  "email": "contact@solutiivest.ro",
   "program": null,
   "program_zile": null,
   "program_deschidere": null,
@@ -18,19 +18,19 @@
   "cost_evaluare": null,
 
   "ani_experienta": 10,
-  "industrii": null,
+  "industrii": "industria auto și mecanică, industria alimentară, instituții publice și centre comerciale, curățări grele, ferme și abatoare de păsări și animale",
   "linkedin": null,
   "foto": "foto.jpg",
   "cazuri": [],
 
   "domeniu": null,
 
-  "firma_denumire": null,
-  "firma_cui": null,
-  "firma_reg_com": null,
-  "sediu_strada": null,
-  "sediu_localitate": null,
-  "sediu_judet": null,
+  "firma_denumire": "ARCO SAUBER SRL",
+  "firma_cui": "RO37094934",
+  "firma_reg_com": "J35/469/2017",
+  "sediu_strada": "A.P. Cehov 68",
+  "sediu_localitate": "Timișoara",
+  "sediu_judet": "Timiș",
   "sediu_cod_postal": null,
 
   "politica_url": null,
