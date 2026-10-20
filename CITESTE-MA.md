@@ -33,8 +33,7 @@ Versiune de lucru. Datele lipsă apar pe pagină marcate cu chenar punctat, iar 
 | `domeniu` | Domeniul, fără https | „exemplu.ro” |
 | `firma_denumire`, `firma_cui`, `firma_reg_com` | Datele de identificare ale firmei | text |
 | `sediu_strada`, `sediu_localitate`, `sediu_judet`, `sediu_cod_postal` | Sediul social | text |
-| `politica_url` | Adresa politicii de confidențialitate | „confidentialitate.html” |
-| `web3forms_cheie` | Cheia de la web3forms.com, pentru formular | cod |
+| `politica_url` | Opțional, adresa politicii de confidențialitate; dacă e completată, apare link în subsol | „confidentialitate.html” |
 | `cloudflare_analytics_token` | Opțional, analiză de trafic fără cookie-uri | cod |
 
 Un caz arată așa:
@@ -59,8 +58,7 @@ Dublu clic pe `porneste-site.bat`. Pornește serverul inclus în Python, doar pe
 
 1. Domeniu `.ro`, scurt.
 2. Cloudflare, secțiunea Workers & Pages: se încarcă folderul `site/`, apoi se leagă domeniul.
-3. Cont pe web3forms.com pentru cheia formularului. Un test de trimitere înainte de lansare.
-4. După lansare: Google Search Console (se trimite `sitemap.xml`), profil Google Business, verificare cu Rich Results Test.
+3. După lansare: Google Search Console (se trimite `sitemap.xml`), profil Google Business, verificare cu Rich Results Test.
 
 ## Regenerare
 
@@ -76,4 +74,3 @@ Are nevoie de Python 3. Pentru imagini (`og.png`, `apple-touch-icon.png`) are ne
 - Deschisă direct de pe disc, pagina se vede cu fonturi de rezervă, fiindcă browserul blochează fonturile locale. Pe domeniu se încarcă normal.
 - Fonturile din `src/fonts` sunt Sofia Sans, tăiate la caracterele românești. Licența (SIL OFL) este în același folder.
 - `_headers` este citit de Cloudflare: antete de securitate, cache lung pentru fonturi și blocarea la indexare a adresei tehnice `pages.dev`.
-- Dacă adaugi captcha la formular, cere-o din contul Web3Forms. Capcana anti-spam inclusă oprește doar roboții simpli.

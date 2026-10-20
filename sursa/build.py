@@ -35,13 +35,10 @@ LABELS = {
     "sediu_localitate": "[localitatea]",
     "sediu_judet": "[județul]",
     "sediu_cod_postal": "[codul poștal]",
-    "web3forms_cheie": "[CHEIE-WEB3FORMS]",
 }
 OPTIONAL = {"whatsapp", "linkedin", "cloudflare_analytics_token", "telefon_international",
             "program_zile", "program_deschidere", "program_inchidere", "_nota"}
 missing = [k for k in LABELS if not SITE.get(k)]
-if not SITE.get("politica_url"):
-    missing.append("politica_url")
 if SITE.get("telefon_afisat") and not SITE.get("telefon_international"):
     missing.append("telefon_international")
 # cazuri: null = de completat (apar marcate) | [] = secțiunea se scoate | listă = cazuri reale
@@ -110,7 +107,6 @@ def fmt_text(text):
     return re.sub(r"\{(\w+)\}", lambda m: T(m.group(1)), text)
 
 
-TEL_TEXT = T("telefon_afisat")
 TEL_HREF = f'tel:{SITE["telefon_international"]}' if SITE.get("telefon_international") else "#contact"
 DOMAIN = SITE.get("domeniu") or "domeniu.ro"
 BASE = f"https://{DOMAIN}/"
@@ -256,10 +252,8 @@ AFTER_LINE = ('<p class="after">Problema dumneavoastră nu este în listă? <a h
 
 
 def chip_href(p):
-    """Cu secțiunea de probleme scoasă, eticheta duce la formular și îi precompletează descrierea."""
-    if SHOW_PROBLEMS:
-        return f'#{p["id"]}'
-    return f'#solicitare" data-problema="{esc(p["short"])}'
+    """Cu secțiunea de probleme scoasă, eticheta duce la contact."""
+    return f'#{p["id"]}' if SHOW_PROBLEMS else "#contact"
 
 
 def html_hero():
@@ -363,7 +357,7 @@ def html_apps():
             <div><p class="app-label">Ce se depune</p><p>{deposits(a["soil"])}</p></div>{how}
             <div><p class="app-label">Cum se verifică</p><p>{rich(a["check"])}</p></div>
           </div>
-          <a class="btn" href="#solicitare" data-problema="{esc(a["title"])}">Descrieți problema</a>
+          <a class="btn" href="#contact">Descrieți problema</a>
         </div>
       </details>''')
     intro = C.APPS_INTRO_WITH_HOW if show_how else C.APPS_INTRO
@@ -466,11 +460,12 @@ def html_about():
 
 
 def html_faq():
+    """Întrebările: titlul în stânga, lista în dreapta de la 62rem în sus, cu aceeași grilă ca domeniile."""
     items = "\n".join(
         f"      <details><summary>{esc(q)}</summary><p>{fmt_html(a)}</p></details>" for q, a in C.FAQ)
     return f'''<section class="sec sec-tight" id="intrebari">
-  <div class="wrap">
-    <h2>Întrebări frecvente</h2>
+  <div class="wrap dom">
+    <div class="dom-head"><h2>Întrebări frecvente</h2></div>
     <div class="faq">
 {items}
     </div>
@@ -478,8 +473,9 @@ def html_faq():
 </section>'''
 
 
-def html_contact(preview):
-    options = "".join(f"<option>{esc(o)}</option>" for o in C.FACILITY_OPTIONS)
+def html_contact():
+    """Contact: telefonul mare și căile de contact în stânga, „Ce îmi spuneți la primul telefon” ca panou în dreapta.
+    Formularul a fost scos la cererea proprietarului pe 20 octombrie 2026."""
     ways = []
     if SITE.get("whatsapp"):
         digits = re.sub(r"\D", "", SITE["whatsapp"])
@@ -490,54 +486,27 @@ def html_contact(preview):
     ways.append(f'<div><dt>E-mail</dt><dd>{f"<a href=\"mailto:{esc(email)}\">{esc(email)}</a>" if email else H("email")}</dd></div>')
     ways.append(f'<div><dt>Program</dt><dd>{H("program")}</dd></div>')
     ways.append(f'<div><dt>Zonă</dt><dd>{H("zona")}</dd></div>')
-    action = "" if preview else ' action="https://api.web3forms.com/submit" method="POST"'
-    redirect = "" if preview else f'\n        <input type="hidden" name="redirect" value="{BASE}#trimis">'
-    privacy = (f'<a href="{esc(SITE["politica_url"])}">politica de confidențialitate</a>' if SITE.get("politica_url")
-               else '<a class="ph" href="#contact">[politica de confidențialitate]</a>')
+    privacy = (f' <a href="{esc(SITE["politica_url"])}">Politica de confidențialitate</a>.'
+               if SITE.get("politica_url") else "")
     return f'''<section class="band" id="contact">
   <div class="wrap sec contact">
     <div>
       <h2>Descrieți problema</h2>
-      <p class="intro">Sunați sau completați formularul. Cu cât detaliile sunt mai exacte, cu atât recomandarea vine mai repede.</p>
+      <p class="intro">Sunați sau scrieți pe WhatsApp. Cu cât detaliile sunt mai exacte, cu atât recomandarea vine mai repede.</p>
       <a class="tel-xl" href="{TEL_HREF}">{H("telefon_afisat")}</a>
       <dl class="ways">
         {"".join(ways)}
       </dl>
-      <div class="need">
-        <h3>{esc(C.NEED_TITLE)}</h3>
-        <p>{esc(C.NEED_INTRO)}</p>
-        <ul>{"".join(f"<li>{esc(n)}</li>" for n in C.NEED)}</ul>
-      </div>
     </div>
-    <div>
-      <p class="sent" id="trimis">Solicitarea a fost trimisă. Vă sun în cel mai scurt timp.</p>
-      <form class="form" id="solicitare"{action} data-tel="{esc(TEL_TEXT)}">
-        <input type="hidden" name="access_key" value="{esc(T("web3forms_cheie"))}">
-        <input type="hidden" name="subject" value="Solicitare nouă de pe site">
-        <input type="hidden" name="from_name" value="{esc(T("brand"))}">{redirect}
-        <input class="hp" type="checkbox" name="botcheck" id="f-verificare" tabindex="-1" aria-hidden="true">
-        <div class="form-row">
-          <div class="field"><label for="f-nume">Nume și firmă</label><input id="f-nume" name="nume_si_firma" type="text" autocomplete="organization" required></div>
-          <div class="field"><label for="f-telefon">Telefon</label><input id="f-telefon" name="telefon" type="tel" inputmode="tel" autocomplete="tel" required></div>
-        </div>
-        <div class="form-row">
-          <div class="field"><label for="f-localitate">Localitate</label><input id="f-localitate" name="localitate" type="text" autocomplete="address-level2"></div>
-          <div class="field"><label for="f-facilitate">Domeniul de aplicare</label><select id="f-facilitate" name="tipul_facilitatii"><option value="">Alegeți</option>{options}</select></div>
-        </div>
-        <div class="field">
-          <label for="f-problema">Ce aveți de curățat?</label>
-          <textarea id="f-problema" name="problema" rows="4" required aria-describedby="f-problema-ajutor"></textarea>
-          <span class="hint" id="f-problema-ajutor">Tipul depunerii, suprafața sau instalația și ce ați încercat până acum.</span>
-        </div>
-        <button class="btn" type="submit">Trimiteți solicitarea</button>
-        <p class="form-state" id="solicitare-stare" role="status" aria-live="polite"></p>
-        <p class="form-note">Folosesc datele doar pentru a răspunde la această solicitare. Detalii în {privacy}.</p>
-      </form>
+    <div class="need">
+      <h3>{esc(C.NEED_TITLE)}</h3>
+      <p>{esc(C.NEED_INTRO)}</p>
+      <ul>{"".join(f"<li>{esc(n)}</li>" for n in C.NEED)}</ul>
     </div>
   </div>
   <footer class="wrap foot">
     <div class="foot-in">
-      <p>{H("firma_denumire")}, CUI {H("firma_cui")}, nr. Reg. Com. {H("firma_reg_com")}. Sediu: {H("sediu_strada")}, {H("sediu_localitate")}, jud. {H("sediu_judet")}.</p>
+      <p>{H("firma_denumire")}, CUI {H("firma_cui")}, nr. Reg. Com. {H("firma_reg_com")}. Sediu: {H("sediu_strada")}, {H("sediu_localitate")}, jud. {H("sediu_judet")}.{privacy}</p>
       <p>© {datetime.date.today().year} {H("brand")}</p>
     </div>
   </footer>
@@ -555,7 +524,7 @@ def html_body(preview):
     draft = ('<div class="draft-bar"><div class="wrap">Versiune de lucru. Textele marcate așteaptă datele reale, '
              'iar pagina rămâne blocată la indexare până la completarea lor.</div></div>\n') if DRAFT else ""
     parts = [html_header(), "<main id=\"continut\">", html_hero(), html_problems(), html_apps(), html_facilities(),
-             html_process(), html_cases(), html_about(), html_faq(), "</main>", html_contact(preview), html_dock()]
+             html_process(), html_cases(), html_about(), html_faq(), "</main>", html_contact(), html_dock()]
     return f'<a class="skip" href="#continut">Salt la conținut</a>\n{draft}' + "\n".join(parts)
 
 
