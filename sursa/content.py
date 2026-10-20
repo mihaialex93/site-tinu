@@ -1,17 +1,17 @@
 """Conținutul paginii. Textele folosesc {cheie} pentru datele din site.json."""
 
-TITLE = "Soluții chimice și detergenți profesionali în {zona}"
+TITLE = "Soluții chimice pentru industrie și instituții în {zona}"
 DESCRIPTION = (
-    "Consultanță tehnică și detergenți profesionali pentru fabrici, bucătării, depozite "
-    "și ateliere din {zona}. Calcar, grăsimi, rugină, biofilm. Doar firme."
+    "Soluții chimice pentru mentenanță industrială, întreținere instituțională, curățare "
+    "și dezinfecție în industria alimentară, în {zona}. Doar firme."
 )
 PREVIEW_TITLE = "Site soluții chimice profesionale"
 
-H1 = "Soluții chimice pentru problemele pe\u00a0care detergentul obișnuit nu\u00a0le\u00a0rezolvă"
+H1 = ("Soluții chimice pentru mentenanță industrială, întreținere instituțională, "
+      "curățare și dezinfecție în\u00a0industria\u00a0alimentară")
 LEAD = (
-    "Consultanță tehnică și detergenți profesionali pentru fabrici, bucătării profesionale, "
-    "depozite și ateliere din {zona}. Vin la fața locului, identific depunerea și recomand "
-    "soluția potrivită pentru suprafața și instalația dumneavoastră."
+    "Consultanță tehnică (identific cea mai eficientă soluție pentru proces), "
+    "optimizare procese de curățenie, performanță în timp."
 )
 
 # Secțiunea detaliată „Probleme de curățare pe care le rezolv” este scoasă din pagină.
@@ -78,6 +78,17 @@ PROBLEMS = [
     ),
 ]
 
+# Domeniile de aplicare, date de proprietar pe 20 octombrie 2026. Au înlocuit secțiunea „Facilități pentru care lucrez”.
+DOMAINS_TITLE = "Domenii de aplicare"
+DOMAINS = [
+    "Industria auto și mecanică",
+    "Industria alimentară",
+    "Instituții publice și centre comerciale",
+    "Curățări grele",
+    "Ferme și abatoare de păsări și animale",
+]
+
+# Vechea listă de facilități, cu descrieri. Nu mai apare pe pagină.
 FACILITIES = [
     ("Industrie alimentară și băuturi", "Lactate, carne, băuturi și panificație: linii de procesare, instalații de spălare CIP, rezervoare și spații de ambalare, unde igiena se verifică la fiecare control."),
     ("Bucătării profesionale și HoReCa", "Restaurante, hoteluri, cantine, firme de catering și laboratoare de cofetărie, de la hotă și cuptor până la mașina de spălat vase."),
@@ -111,13 +122,16 @@ CASE_COUNT = 3
 
 ABOUT = [
     "{persoana}, consultant tehnic pentru soluții chimice profesionale. Lucrez în teren de {ani_text}, în {industrii}.",
+    "Studii postuniversitare, inginer. Tehnician în protecția și calitatea mediului. Antreprenor. Reprezentant tehnic. "
+    "Experiență de 10 ani în servicii speciale și curățare cu gheață carbonică.",
     "Nu am magazin online și nu trimit oferte fără să văd problema. Vin, evaluez și răspund pentru recomandarea făcută.",
     "Acopăr {zona}, cu deplasare la sediul dumneavoastră.",
 ]
 
 FAQ = [
     ("Lucrați și cu persoane fizice?",
-     "Nu. Lucrez exclusiv cu firme: unități de producție, bucătării profesionale, depozite, ateliere și firme de curățenie."),
+     "Nu. Lucrez exclusiv cu firme și instituții, în domeniile de aplicare de mai sus: industria auto și mecanică, "
+     "industria alimentară, instituții publice și centre comerciale, curățări grele, ferme și abatoare."),
     ("Ce zonă acoperiți?",
      "Acopăr {zona}, inclusiv {localitati}. Pentru proiecte mai mari discutăm și în afara zonei."),
     ("Pot testa soluția înainte de comandă?",
@@ -138,12 +152,13 @@ FAQ = [
      "Răspund la solicitări în {raspuns}. Pentru urgențe, sunați direct."),
 ]
 
-FACILITY_OPTIONS = [f[0] for f in FACILITIES] + ["Alt tip de facilitate"]
+FACILITY_OPTIONS = DOMAINS + ["Alt domeniu"]
 
 KNOWS_ABOUT = [
     "curățarea schimbătoarelor de căldură", "pasivarea inoxului", "degresarea pieselor metalice",
     "detergenți profesionali", "curățare industrială", "detartrare", "degresare industrială",
     "igienizare în industria alimentară", "instalații de spălare CIP", "întreținerea pardoselilor industriale",
+    "curățarea bazinelor de apă potabilă",
 ]
 
 
@@ -196,6 +211,12 @@ APPS = [
          soil="Praf, ulei și depuneri de carbon pe motoare, pe contacte și în tablouri.",
          how="Cu solvenți dielectrici, fără apă, cu evaporare controlată, numai pe echipamente scoase de sub tensiune.",
          check="Rezistența de izolație, măsurată înainte de repunerea sub tensiune."),
+    # Date de la proprietar, 20 octombrie 2026. Mărimea de control lipsește: rămâne marcată până o dă el.
+    dict(id="bazine-apa-potabila", unit='[de completat]', token='[de completat]', token_note='[Mărimea de control verificată înainte de predare]',
+         title="Bazine de apă potabilă",
+         soil="[[rugina|Oxizi]], [[calcar|depuneri minerale]] și [[proteine-biofilm|biofilm]], pe bazine cu membrană, din inox, din fibră sau din beton.",
+         how="Soluții tehnice și pași de curățare diferiți, în funcție de tipul materialului, de depunere și de timpul de acțiune.",
+         check="Igienizare cu dezinfectant avizat pentru apă potabilă, înainte de predare. Serviciu disponibil în județul Timiș."),
 ]
 
 APPS_NOTE = ("Informațiile de pe această pagină sunt orientative. Produsul, concentrația, temperatura și timpul de contact "

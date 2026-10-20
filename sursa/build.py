@@ -57,6 +57,12 @@ def esc(s):
     return html.escape(str(s), quote=True)
 
 
+def mark(s):
+    """Text real sau, dacă este scris între paranteze pătrate, marcaj vizibil de completat."""
+    s = str(s)
+    return f'<span class="ph">{esc(s)}</span>' if s.startswith("[") and s.endswith("]") else esc(s)
+
+
 def years_text():
     """«12 ani», dar «20 de ani»: de la 20 în sus se pune «de», cu excepția terminațiilor 01-19."""
     n = str(SITE.get("ani_experienta") or "").strip()
@@ -235,7 +241,7 @@ def html_header():
   <nav class="nav" aria-label="Secțiunile paginii">
     <ul>
 {'      <li><a href="#probleme">Probleme</a></li>' + chr(10) if SHOW_PROBLEMS else ''}      <li><a href="#aplicatii">Aplicații</a></li>
-      <li><a href="#facilitati">Facilități</a></li>
+      <li><a href="#facilitati">Domenii</a></li>
       <li><a href="#cum-lucrez">Cum lucrez</a></li>
       <li><a href="#intrebari">Întrebări</a></li>
       <li><a href="#contact">Contact</a></li>
@@ -349,10 +355,10 @@ def html_apps():
     for i, a in enumerate(C.APPS):
         how = (f'\n          <div><p class="app-label">Cum se curăță</p><p>{rich(a["how"])}</p></div>' if show_how else "")
         items.append(f'''      <details class="app" id="{a["id"]}" name="aplicatie"{" open" if i == 0 else ""}>
-        <summary><h3>{esc(a["title"])}</h3><span class="app-unit" aria-hidden="true">{esc(a["unit"])}</span></summary>
+        <summary><h3>{esc(a["title"])}</h3><span class="app-unit" aria-hidden="true">{mark(a["unit"])}</span></summary>
         <div class="app-panel">
-          <p class="app-token">{esc(a["token"])}</p>
-          <p class="app-note">{esc(a["token_note"])}</p>
+          <p class="app-token">{mark(a["token"])}</p>
+          <p class="app-note">{mark(a["token_note"])}</p>
           <div class="app-cols">
             <div><p class="app-label">Ce se depune</p><p>{deposits(a["soil"])}</p></div>{how}
             <div><p class="app-label">Cum se verifică</p><p>{rich(a["check"])}</p></div>
@@ -374,10 +380,10 @@ def html_apps():
 
 
 def html_facilities():
-    items = "\n".join(f"      <li><h3>{esc(t)}</h3><p>{esc(d)}</p></li>" for t, d in C.FACILITIES)
+    items = "\n".join(f"      <li><h3>{esc(t)}</h3></li>" for t in C.DOMAINS)
     return f'''<section class="sec sec-tight" id="facilitati">
   <div class="wrap">
-    <h2>Facilități pentru care lucrez</h2>
+    <h2>{esc(C.DOMAINS_TITLE)}</h2>
     <p class="intro">Lucrez exclusiv cu firme din {H("zona")}.</p>
     <ul class="fac">
 {items}
@@ -509,7 +515,7 @@ def html_contact(preview):
         </div>
         <div class="form-row">
           <div class="field"><label for="f-localitate">Localitate</label><input id="f-localitate" name="localitate" type="text" autocomplete="address-level2"></div>
-          <div class="field"><label for="f-facilitate">Tipul facilității</label><select id="f-facilitate" name="tipul_facilitatii"><option value="">Alegeți</option>{options}</select></div>
+          <div class="field"><label for="f-facilitate">Domeniul de aplicare</label><select id="f-facilitate" name="tipul_facilitatii"><option value="">Alegeți</option>{options}</select></div>
         </div>
         <div class="field">
           <label for="f-problema">Ce aveți de curățat?</label>
