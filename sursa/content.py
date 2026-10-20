@@ -1,6 +1,6 @@
 """Conținutul paginii. Textele folosesc {cheie} pentru datele din site.json."""
 
-TITLE = "Soluții chimice pentru industrie și instituții în {zona}"
+TITLE = "Soluții chimice pentru industrie și instituții, {zona}"
 DESCRIPTION = (
     "Soluții chimice pentru mentenanță industrială, întreținere instituțională, curățare "
     "și dezinfecție în industria alimentară, în {zona}. Doar firme."

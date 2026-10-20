@@ -1,20 +1,20 @@
 {
   "_nota": "Datele reale ale site-ului. Orice valoare lăsată null apare pe pagină ca text marcat, iar pagina rămâne blocată la indexare.",
 
-  "brand": null,
+  "brand": "Soluții Vest",
   "persoana": null,
-  "zona": null,
+  "zona": "Zona de Vest",
   "localitati": null,
 
-  "telefon_afisat": null,
-  "telefon_international": null,
-  "whatsapp": null,
+  "telefon_afisat": "+40 720 058 673",
+  "telefon_international": "+40720058673",
+  "whatsapp": "+40720058673",
   "email": null,
   "program": null,
   "program_zile": null,
   "program_deschidere": null,
   "program_inchidere": null,
-  "raspuns": null,
+  "raspuns": "cel mai scurt timp",
   "cost_evaluare": null,
 
   "ani_experienta": 10,
