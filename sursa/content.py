@@ -211,8 +211,8 @@ APPS = [
          soil="Praf, ulei și depuneri de carbon pe motoare, pe contacte și în tablouri.",
          how="Cu solvenți dielectrici, fără apă, cu evaporare controlată, numai pe echipamente scoase de sub tensiune.",
          check="Rezistența de izolație, măsurată înainte de repunerea sub tensiune."),
-    # Date de la proprietar, 20 octombrie 2026. Mărimea de control lipsește: rămâne marcată până o dă el.
-    dict(id="bazine-apa-potabila", unit='[de completat]', token='[de completat]', token_note='[Mărimea de control verificată înainte de predare]',
+    # Date de la proprietar, 20 octombrie 2026. Mărimea de control: pH, cu buletin de analiză a apei la predare.
+    dict(id="bazine-apa-potabila", unit='pH', token='pH', token_note='Buletin de analiză a apei, înainte de predare',
          title="Bazine de apă potabilă",
          soil="[[rugina|Oxizi]], [[calcar|depuneri minerale]] și [[proteine-biofilm|biofilm]], pe bazine cu membrană, din inox, din fibră sau din beton.",
          how="Soluții tehnice și pași de curățare diferiți, în funcție de tipul materialului, de depunere și de timpul de acțiune.",
