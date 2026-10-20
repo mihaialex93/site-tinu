@@ -36,6 +36,7 @@ sursa/
   src/styles.css       stilurile, cu tokenuri în :root
   src/script.js        selectorul de aplicații (un singur echipament deschis pe ecran lat)
   src/fonts/           fonturile sursă tăiate (licență SIL OFL)
+  src/img/             fotografia (foto.jpg, 4:5, 880 x 1100) și imaginile generate og.png și apple-touch-icon.png; build.py le copiază în dist/
   tools/fonts.py       retaie fonturile din fișierele TTF complete (nu sunt în depozit)
   tools/functest.py    test funcțional în browser
 porneste-site.bat      server local la http://localhost:8000
@@ -53,7 +54,7 @@ robocopy sursa\dist site /MIR
 ```
 
 - `build.py` scrie în `sursa/dist/` și `sursa/preview/`, nu direct în `site/`. Pasul `robocopy /MIR` este obligatoriu și șterge fonturile vechi când li se schimbă hash-ul.
-- `/MIR` șterge din `site/` tot ce nu există în `sursa/dist/`. Fotografia reală trebuie deci copiată de `build.py` (de exemplu din `sursa/src/`), nu pusă direct în `site/`, cum spune încă `CITESTE-MA.md`.
+- `/MIR` șterge din `site/` tot ce nu există în `sursa/dist/`. De aceea fotografia și imaginile generate stau în `sursa/src/img/`, de unde `build.py` le copiază în `dist/` la fiecare regenerare. `--imagini` scrie imaginile noi și în `src/img/`.
 - `sursa/preview/index.html` este varianta cu fonturile incluse în fișier, folosită pentru previzualizarea publicată ca artefact. Nu se urcă pe domeniu.
 - La final, `build.py` afișează modul (LUCRU sau FINAL), lungimea titlului și a descrierii și câmpurile lipsă.
 - Verificare: pornește `porneste-site.bat`, apoi `py sursa\tools\functest.py http://localhost:8000/`.
@@ -80,9 +81,10 @@ robocopy sursa\dist site /MIR
 4. **Aplicații pe echipamente:** selector interactiv, cu lista în stânga și fișa în dreapta de la 62rem în sus, acordeon pe mobil. Este construit cu `<details name="aplicatie">` și funcționează și fără JavaScript.
    - 9 echipamente, fiecare cu mărimea de control scrisă mare: Instalații CIP (1,5 m/s), Schimbătoare de căldură și pasteurizatoare (Δp), Rezervoare și tancuri (pH), Conducte și furtunuri (UFC), Mașini de spălat lăzi și navete (°C), Utilaje și linii de procesare (ATP), Piese și componente metalice (H₂O), Echipamente electrice (MΩ), Bazine de apă potabilă (mărimea de control lipsește, rămâne marcată; nota „județul Timiș” este a proprietarului).
    - Fiecare fișă are „Ce se depune”, cu depunerile marcate în culorile lor de pH, „Cum se verifică” și un buton care duce la Contact.
+   - **30 de aplicații uzuale** (`USUAL` în `content.py`): 4 grupuri date de proprietar, doar titluri, numerotate continuu, în 4 coloane pe ecran lat. Nu are intrare în meniu.
 5. Domenii de aplicare: 5 titluri date de proprietar, fără descrieri, în `DOMAINS`. Titlul și fraza în stânga, lista cu titluri mari în dreapta de la 62rem în sus, cu câte un pătrat de culoare de pe scala de pH. Vechea listă `FACILITIES` a rămas în `content.py`, nefolosită.
 6. Cum lucrez: 4 pași și cercul lui Sinner (chimie, temperatură, timp de contact, acțiune mecanică).
-7. Despre: fotografie marcată, paragraful cu CV-ul proprietarului și text cu câmpuri lipsă.
+7. Despre: fotografia proprietarului (din 20 octombrie 2026), paragraful cu CV-ul și text cu câmpuri lipsă.
 8. Întrebări frecvente: 10, cu titlul în stânga și lista în dreapta, pe aceeași grilă ca domeniile.
 9. Contact: telefon mare, WhatsApp, e-mail, program și zonă în stânga, „Ce îmi spuneți la primul telefon” (6 puncte) ca panou alb în dreapta, plus subsolul cu datele firmei.
 10. Bara fixă pe mobil, cu „Sunați” și „Descrieți problema”.
@@ -106,7 +108,6 @@ robocopy sursa\dist site /MIR
 ## Ce lipsește
 
 1. Datele reale din `site.json`: persoană, localități, e-mail, program, costul evaluării, industrii, domeniu, datele firmei și sediul. Completate pe 20 octombrie 2026: brand, zonă, telefon, WhatsApp, timp de răspuns, ani de experiență.
-2. O fotografie reală, verticală 4:5, minimum 880 x 1100 px.
 3. Opțional, politica de confidențialitate în `politica_url`.
 4. Confirmări de conținut de la proprietar, fiindcă textele sunt scrise pe presupuneri:
    - simbolurile de măsură din aplicații și dacă echipamentele electrice rămân;
@@ -121,7 +122,6 @@ robocopy sursa\dist site /MIR
 - **Remote-ul real este `origin` = `https://github.com/mihaialex93/site-tinu.git`, ramura `main`.** Inițial se plănuise depozitul `mihaialex93/tinu`.
 - `urca-pe-github.bat` a fost șters din depozit pe 20 octombrie 2026: reseta `origin` la vechea adresă `mihaialex93/tinu.git` și făcea push fără verificare. Nu se recreează.
 - `git push` dă HTTP 403 pe acest calculator din cauza interceptării TLS corporate (Zscaler), indiferent de VPN. Nu se depanează. Livrarea se face prin GitHub Git Data API, cu scriptul `api_push.py` descris în `C:\Users\mpopa\METODA-push-github.md` (în afara depozitului), rulat din terminalul utilizatorului. Commit-urile cer `[skip-audit]` în mesaj, din cauza hook-ului de audit al plugin-ului nemesis.
-- `py build.py` fără `--imagini` nu pune `og.png` și `apple-touch-icon.png` în `dist/`, deci `robocopy /MIR` le șterge din `site/`. După copiere se restaurează cu `git checkout -- site/og.png site/apple-touch-icon.png`, până când `build.py` le va copia singur.
 - Mesajul „doar firme” mai apare în hero („Clienți: Exclusiv firme”) și în întrebarea „Lucrați și cu persoane fizice?”. Proprietarul a cerut scoasă doar propoziția „Nu vând persoanelor fizice.” din secțiunea Facilități.
 - Imaginile din `site/` au primit metadate de proveniență C2PA la transferul pe acest calculator. Sunt valide; la următorul `py build.py --imagini` se regenerează fără ele.
 - Pagina deschisă direct de pe disc (`file://`) se vede cu fonturi de rezervă. Se verifică doar prin `porneste-site.bat`.

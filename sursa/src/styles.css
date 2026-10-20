@@ -221,6 +221,16 @@ h3 { font-weight: 700; font-size: clamp(1.6rem, 2.5vw, 2rem); line-height: 1.04;
 }
 
 /* ---------- Facilități ---------- */
+/* 30 de aplicații uzuale: 4 grupuri, numerotate continuu */
+.usual { display: grid; gap: 2.25rem 2.5rem; grid-template-columns: minmax(0, 1fr); margin-top: clamp(2rem, 4vw, 3rem); }
+.usual-group { min-width: 0; border-top: 2px solid var(--ink); padding-top: 1rem; }
+.usual-group h3 { font-size: clamp(1.5rem, 2.2vw, 1.8rem); }
+.usual ul { display: grid; gap: 0.55rem; margin-top: 1rem; }
+.usual li { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); column-gap: 0.5rem; align-items: baseline; line-height: 1.35; }
+.usual .num { font: 800 1.5rem/1 var(--font-display); font-variant-numeric: tabular-nums; color: var(--ink-soft); }
+@media (min-width: 40rem) { .usual { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 62rem) { .usual { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2.25rem 2rem; } }
+
 /* Domenii de aplicare: titlu + frază în stânga, listă manifest în dreapta */
 .dom { display: grid; gap: 1.5rem 4rem; grid-template-columns: minmax(0, 1fr); }
 .dom-list { margin-top: 0.5rem; border-top: 2px solid var(--ink); }

@@ -28,7 +28,7 @@ Versiune de lucru. Datele lipsă apar pe pagină marcate cu chenar punctat, iar 
 | `ani_experienta` | Anii de lucru în teren | număr |
 | `industrii` | Industriile în care ai lucrat | „industria alimentară și HoReCa” |
 | `linkedin` | Opțional, adresa profilului | adresă completă |
-| `foto` | Numele fișierului cu fotografia, pus în `site/` | „foto.webp”, 880 x 1100 px |
+| `foto` | Numele fișierului cu fotografia, pus în `sursa/src/img/` (de acolo ajunge în `site/` la regenerare) | „foto.jpg”, 880 x 1100 px |
 | `cazuri` | Cazuri reale. Listă goală `[]` scoate secțiunea | vezi mai jos |
 | `domeniu` | Domeniul, fără https | „exemplu.ro” |
 | `firma_denumire`, `firma_cui`, `firma_reg_com` | Datele de identificare ale firmei | text |

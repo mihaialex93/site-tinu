@@ -373,6 +373,28 @@ def html_apps():
 </section>'''
 
 
+def html_usual():
+    """Cele 30 de aplicații uzuale: 4 grupuri în 4 coloane pe ecran lat, numerotate continuu de la 1 la 30."""
+    n = 0
+    groups = []
+    for title, items in C.USUAL:
+        lis = []
+        for item in items:
+            n += 1
+            lis.append(f'        <li><span class="num">{n}</span>{esc(item)}</li>')
+        groups.append(f'      <div class="usual-group">\n        <h3>{esc(title)}</h3>\n        <ul>\n'
+                      + "\n".join(lis) + '\n        </ul>\n      </div>')
+    return f'''<section class="sec sec-tight" id="uzuale">
+  <div class="wrap">
+    <h2>{esc(C.USUAL_TITLE)}</h2>
+    <p class="intro">{esc(C.USUAL_INTRO)}</p>
+    <div class="usual">
+{chr(10).join(groups)}
+    </div>
+  </div>
+</section>'''
+
+
 def html_facilities():
     """Domeniile de aplicare: titlul și fraza în stânga, lista cu titluri mari în dreapta (de la 62rem în sus).
     Fiecare domeniu primește o culoare de pe scala de pH, de la acid la alcalin, ca semn, nu ca informație."""
@@ -523,7 +545,7 @@ def html_dock():
 def html_body(preview):
     draft = ('<div class="draft-bar"><div class="wrap">Versiune de lucru. Textele marcate așteaptă datele reale, '
              'iar pagina rămâne blocată la indexare până la completarea lor.</div></div>\n') if DRAFT else ""
-    parts = [html_header(), "<main id=\"continut\">", html_hero(), html_problems(), html_apps(), html_facilities(),
+    parts = [html_header(), "<main id=\"continut\">", html_hero(), html_problems(), html_apps(), html_usual(), html_facilities(),
              html_process(), html_cases(), html_about(), html_faq(), "</main>", html_contact(), html_dock()]
     return f'<a class="skip" href="#continut">Salt la conținut</a>\n{draft}' + "\n".join(parts)
 
@@ -665,6 +687,10 @@ def main():
         shutil.copyfile(os.path.join(SRC, "fonts", name), os.path.join(DIST, "fonts", hashed(name)))
     shutil.copyfile(os.path.join(SRC, "fonts", "OFL.txt"), os.path.join(DIST, "fonts", "LICENTA-FONTURI.txt"))
 
+    img_dir = os.path.join(SRC, "img")
+    for name in sorted(os.listdir(img_dir)):
+        shutil.copyfile(os.path.join(img_dir, name), os.path.join(DIST, name))
+
     write(os.path.join(DIST, "index.html"), page_production())
     write(os.path.join(PREVIEW, "index.html"), page_preview())
     write(os.path.join(DIST, "404.html"), PAGE_404)
@@ -685,6 +711,9 @@ def main():
     if "--imagini" in sys.argv:
         import images
         images.render(ROOT, DIST, SRC, PH, ON, INK, C.H1, T("brand"), FAVICON)
+        # imaginile generate se păstrează în src/img, ca regenerările obișnuite să le copieze mai departe
+        for name in ("og.png", "apple-touch-icon.png"):
+            shutil.copyfile(os.path.join(DIST, name), os.path.join(img_dir, name))
 
     # ------------------------------------------------------------ raport
     title, desc = fmt_text(C.TITLE), fmt_text(C.DESCRIPTION)

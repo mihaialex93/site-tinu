@@ -232,3 +232,48 @@ NEED = [
     "Produsul și concentrația folosite în prezent.",
     "Timpul disponibil pentru curățare.",
 ]
+
+
+# Cele 30 de aplicații uzuale, date de proprietar pe 20 octombrie 2026. Doar titluri, numerotate continuu.
+USUAL_TITLE = "30 de aplicații uzuale"
+USUAL_INTRO = "Situațiile pe care le întâlnesc cel mai des. Dacă a dumneavoastră nu este aici, sunați."
+USUAL = [
+    ("Curățare și depuneri", [
+        "Curățarea instalațiilor CIP",
+        "Depuneri minerale în instalații CIP",
+        "Piatra de lapte",
+        "Depuneri de calcar",
+        "Depuneri proteice",
+        "Depuneri de grăsimi",
+        "Biofilm în instalații",
+        "Depuneri carbonizate",
+        "Curățarea schimbătoarelor de căldură",
+        "Curățarea conductelor industriale",
+    ]),
+    ("Metale și suprafețe", [
+        "Îndepărtarea ruginii",
+        "Pete de rugină pe inox",
+        "Curățarea inoxului",
+        "Oxizi metalici",
+        "Degresarea suprafețelor metalice",
+        "Pasivarea inoxului",
+        "Protecția împotriva coroziunii",
+        "Curățarea aluminiului",
+    ]),
+    ("Industria alimentară", [
+        "Curățarea instalațiilor din industria laptelui",
+        "Curățarea instalațiilor de procesare carne",
+        "Curățarea fabricilor de băuturi",
+        "Curățarea utilajelor alimentare",
+        "Curățarea mașinilor de spălat lăzi",
+        "Curățarea rezervoarelor alimentare",
+        "Curățarea conductelor pentru produse alimentare",
+    ]),
+    ("Mentenanță industrială", [
+        "Curățarea utilajelor industriale",
+        "Îndepărtarea uleiurilor și grăsimilor",
+        "Curățarea componentelor tehnice",
+        "Curățarea electrică și tehnică specială",
+        "Alegerea detergentului industrial potrivit",
+    ]),
+]
