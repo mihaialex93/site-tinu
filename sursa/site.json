@@ -2,20 +2,17 @@
   "_nota": "Datele reale ale site-ului. Orice valoare lăsată null apare pe pagină ca text marcat, iar pagina rămâne blocată la indexare.",
 
   "brand": "Soluții Vest",
-  "persoana": "Tinu",
+  "persoana": "Florentin Cocrean (Tinu)",
   "zona": "Zona de Vest",
-  "localitati": null,
 
   "telefon_afisat": "+40 720 058 673",
   "telefon_international": "+40720058673",
   "whatsapp": "+40720058673",
   "email": "contact@solutiivest.ro",
-  "program": null,
   "program_zile": null,
   "program_deschidere": null,
   "program_inchidere": null,
   "raspuns": "cel mai scurt timp",
-  "cost_evaluare": null,
 
   "ani_experienta": 10,
   "industrii": "industria auto și mecanică, industria alimentară, instituții publice și centre comerciale, curățări grele, ferme și abatoare de păsări și animale",
@@ -31,7 +28,6 @@
   "sediu_strada": "A.P. Cehov 68",
   "sediu_localitate": "Timișoara",
   "sediu_judet": "Timiș",
-  "sediu_cod_postal": null,
 
   "politica_url": null,
 

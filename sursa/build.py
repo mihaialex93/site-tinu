@@ -19,12 +19,9 @@ LABELS = {
     "brand": "[Nume brand]",
     "persoana": "[Prenume Nume]",
     "zona": "[zona]",
-    "localitati": "[localitățile deservite]",
     "telefon_afisat": "[07xx xxx xxx]",
     "email": "[adresa de e-mail]",
-    "program": "[luni–vineri, 08:00–17:00]",
     "raspuns": "[intervalul de răspuns]",
-    "cost_evaluare": "[Evaluarea este gratuită sau are un tarif: de completat.]",
     "ani_experienta": "[X]",
     "industrii": "[industriile în care am lucrat]",
     "domeniu": "[domeniu.ro]",
@@ -34,7 +31,6 @@ LABELS = {
     "sediu_strada": "[strada și numărul]",
     "sediu_localitate": "[localitatea]",
     "sediu_judet": "[județul]",
-    "sediu_cod_postal": "[codul poștal]",
 }
 OPTIONAL = {"whatsapp", "linkedin", "cloudflare_analytics_token", "telefon_international",
             "program_zile", "program_deschidere", "program_inchidere", "_nota"}
@@ -506,7 +502,6 @@ def html_contact():
         ways.append(f'<div><dt>WhatsApp</dt><dd>{fmt_html("[link WhatsApp, dacă îl folosești]")}</dd></div>')
     email = SITE.get("email")
     ways.append(f'<div><dt>E-mail</dt><dd>{f"<a href=\"mailto:{esc(email)}\">{esc(email)}</a>" if email else H("email")}</dd></div>')
-    ways.append(f'<div><dt>Program</dt><dd>{H("program")}</dd></div>')
     ways.append(f'<div><dt>Zonă</dt><dd>{H("zona")}</dd></div>')
     privacy = (f' <a href="{esc(SITE["politica_url"])}">Politica de confidențialitate</a>.'
                if SITE.get("politica_url") else "")
@@ -572,7 +567,6 @@ def json_ld():
             "streetAddress": T("sediu_strada"),
             "addressLocality": T("sediu_localitate"),
             "addressRegion": T("sediu_judet"),
-            "postalCode": T("sediu_cod_postal"),
             "addressCountry": "RO",
         },
         "areaServed": {"@type": "AdministrativeArea", "name": T("zona")},

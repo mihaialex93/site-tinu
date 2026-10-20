@@ -16,15 +16,12 @@ Versiune de lucru. Datele lipsă apar pe pagină marcate cu chenar punctat, iar 
 | `brand` | Numele sub care apare site-ul | text scurt |
 | `persoana` | Prenume și nume | text |
 | `zona` | Zona deservită, cum se citește după „din” | „județul X”, „zona X” |
-| `localitati` | Localitățile principale | „A, B și C” |
 | `telefon_afisat` | Telefonul, cum se vede pe pagină | „07xx xxx xxx” |
 | `telefon_international` | Același număr, pentru apel direct | „+407xxxxxxxx” |
 | `whatsapp` | Opțional, numărul de WhatsApp | „+407xxxxxxxx” |
 | `email` | Adresa de contact | text |
-| `program` | Programul, cum se vede pe pagină | „luni–vineri, 08:00–17:00” |
 | `program_zile`, `program_deschidere`, `program_inchidere` | Programul pentru Google | `["Monday", ...]`, „08:00”, „17:00” |
 | `raspuns` | Timpul de răspuns, cum se citește după „în” | „aceeași zi lucrătoare” |
-| `cost_evaluare` | Răspunsul complet la întrebarea despre cost | o propoziție |
 | `ani_experienta` | Anii de lucru în teren | număr |
 | `industrii` | Industriile în care ai lucrat | „industria alimentară și HoReCa” |
 | `linkedin` | Opțional, adresa profilului | adresă completă |
@@ -32,7 +29,7 @@ Versiune de lucru. Datele lipsă apar pe pagină marcate cu chenar punctat, iar 
 | `cazuri` | Cazuri reale. Listă goală `[]` scoate secțiunea | vezi mai jos |
 | `domeniu` | Domeniul, fără https | „exemplu.ro” |
 | `firma_denumire`, `firma_cui`, `firma_reg_com` | Datele de identificare ale firmei | text |
-| `sediu_strada`, `sediu_localitate`, `sediu_judet`, `sediu_cod_postal` | Sediul social | text |
+| `sediu_strada`, `sediu_localitate`, `sediu_judet` | Sediul social | text |
 | `politica_url` | Opțional, adresa politicii de confidențialitate; dacă e completată, apare link în subsol | „confidentialitate.html” |
 | `cloudflare_analytics_token` | Opțional, analiză de trafic fără cookie-uri | cod |
 

@@ -133,11 +133,9 @@ FAQ = [
      "Nu. Lucrez exclusiv cu firme și instituții, în domeniile de aplicare de mai sus: industria auto și mecanică, "
      "industria alimentară, instituții publice și centre comerciale, curățări grele, ferme și abatoare."),
     ("Ce zonă acoperiți?",
-     "Acopăr {zona}, inclusiv {localitati}. Pentru proiecte mai mari discutăm și în afara zonei."),
+     "Acopăr {zona}. Pentru proiecte mai mari discutăm și în afara zonei."),
     ("Pot testa soluția înainte de comandă?",
      "Da. Recomandarea se verifică printr-o probă la fața locului, pe o zonă mică sau pe un ciclu de spălare, înainte de orice comandă."),
-    ("Cât costă evaluarea la fața locului?",
-     "{cost_evaluare}"),
     ("Primesc documentația produselor?",
      "Da. Fiecare produs se livrează cu fișa tehnică și cu fișa cu date de securitate, în limba română."),
     ("Cum aleg detergentul industrial potrivit?",

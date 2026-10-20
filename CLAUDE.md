@@ -85,8 +85,8 @@ robocopy sursa\dist site /MIR
 5. Domenii de aplicare: 5 titluri date de proprietar, fără descrieri, în `DOMAINS`. Titlul și fraza în stânga, lista cu titluri mari în dreapta de la 62rem în sus, cu câte un pătrat de culoare de pe scala de pH. Vechea listă `FACILITIES` a rămas în `content.py`, nefolosită.
 6. Cum lucrez: 4 pași și cercul lui Sinner (chimie, temperatură, timp de contact, acțiune mecanică).
 7. Despre: fotografia proprietarului (din 20 octombrie 2026), paragraful cu CV-ul și text cu câmpuri lipsă.
-8. Întrebări frecvente: 10, cu titlul în stânga și lista în dreapta, pe aceeași grilă ca domeniile.
-9. Contact: telefon mare, WhatsApp, e-mail, program și zonă în stânga, „Ce îmi spuneți la primul telefon” (6 puncte) ca panou alb în dreapta, plus subsolul cu datele firmei.
+8. Întrebări frecvente: 9, cu titlul în stânga și lista în dreapta, pe aceeași grilă ca domeniile.
+9. Contact: telefon mare, WhatsApp, e-mail și zonă în stânga, „Ce îmi spuneți la primul telefon” (6 puncte) ca panou alb în dreapta, plus subsolul cu datele firmei.
 10. Bara fixă pe mobil, cu „Sunați” și „Descrieți problema”.
 
 ## Direcția de design
@@ -107,7 +107,7 @@ robocopy sursa\dist site /MIR
 
 ## Ce lipsește
 
-1. Datele reale din `site.json`: persoană, localități, e-mail, program, costul evaluării, industrii, domeniu, datele firmei și sediul. Completate pe 20 octombrie 2026: brand, zonă, telefon, WhatsApp, timp de răspuns, ani de experiență.
+1. Domeniul site-ului în `site.json` (`domeniu`), singurul câmp care mai ține pagina în modul de lucru. Completate pe 20 octombrie 2026: brand, zonă, telefon, WhatsApp, timp de răspuns, ani de experiență, persoană, e-mail, industrii, datele firmei și sediul. Scoase la cererea proprietarului, tot atunci: localitățile, programul, costul evaluării și codul poștal, împreună cu textele care le foloseau (rândul „Program” din Contact și întrebarea despre costul evaluării).
 3. Opțional, politica de confidențialitate în `politica_url`.
 4. Confirmări de conținut de la proprietar, fiindcă textele sunt scrise pe presupuneri:
    - simbolurile de măsură din aplicații și dacă echipamentele electrice rămân;
