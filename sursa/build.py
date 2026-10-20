@@ -380,12 +380,19 @@ def html_apps():
 
 
 def html_facilities():
-    items = "\n".join(f"      <li><h3>{esc(t)}</h3></li>" for t in C.DOMAINS)
+    """Domeniile de aplicare: titlul și fraza în stânga, lista cu titluri mari în dreapta (de la 62rem în sus).
+    Fiecare domeniu primește o culoare de pe scala de pH, de la acid la alcalin, ca semn, nu ca informație."""
+    tones = [1, 4, 7, 10, 13]
+    items = "\n".join(
+        f'      <li><span class="dom-sw" style="--c:var(--ph{tones[i % len(tones)]})" aria-hidden="true"></span><h3>{esc(t)}</h3></li>'
+        for i, t in enumerate(C.DOMAINS))
     return f'''<section class="sec sec-tight" id="facilitati">
-  <div class="wrap">
-    <h2>{esc(C.DOMAINS_TITLE)}</h2>
-    <p class="intro">Lucrez exclusiv cu firme din {H("zona")}.</p>
-    <ul class="fac">
+  <div class="wrap dom">
+    <div class="dom-head">
+      <h2>{esc(C.DOMAINS_TITLE)}</h2>
+      <p class="intro">Lucrez exclusiv cu firme din {H("zona")}.</p>
+    </div>
+    <ul class="dom-list">
 {items}
     </ul>
   </div>

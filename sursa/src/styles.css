@@ -222,9 +222,18 @@ h3 { font-weight: 700; font-size: clamp(1.6rem, 2.5vw, 2rem); line-height: 1.04;
 }
 
 /* ---------- Facilități ---------- */
-.fac { display: grid; gap: 2.25rem 2.5rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); margin-top: clamp(2rem, 4vw, 3rem); }
-.fac li { border-top: 2px solid var(--ink); padding-top: 1rem; min-width: 0; }
-.fac p { margin-top: 0.5rem; color: var(--ink-soft); }
+/* Domenii de aplicare: titlu + frază în stânga, listă manifest în dreapta */
+.dom { display: grid; gap: 1.5rem 4rem; grid-template-columns: minmax(0, 1fr); }
+.dom-list { margin-top: 0.5rem; border-top: 2px solid var(--ink); }
+.dom-list li { display: grid; grid-template-columns: 1.25rem minmax(0, 1fr); column-gap: 1rem; align-items: center; padding-block: 0.9rem; border-bottom: 1px solid var(--line); }
+.dom-list h3 { font-size: clamp(1.75rem, 3.2vw, 2.6rem); line-height: 1; }
+.dom-sw { width: 1.25rem; height: 1.25rem; border-radius: 2px; background: var(--c); }
+@media (min-width: 62rem) {
+  .dom { grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); align-items: start; }
+  .dom-head { position: sticky; top: 5rem; }
+  .dom-list { margin-top: 0.75rem; }
+  .dom-list li { padding-block: 1.15rem; }
+}
 
 /* ---------- Cum lucrez ---------- */
 .steps { display: grid; gap: 1.75rem 2rem; grid-template-columns: minmax(0, 1fr); margin-top: clamp(2rem, 4vw, 3rem); counter-reset: pas; }
