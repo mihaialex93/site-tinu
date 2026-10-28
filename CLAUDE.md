@@ -70,7 +70,7 @@ robocopy sursa\dist site /MIR
 - `sursa/preview/index.html` este varianta cu fonturile incluse în fișier, folosită pentru previzualizarea publicată ca artefact. Nu se urcă pe domeniu.
 - La final, `build.py` afișează modul (LUCRU sau FINAL), lungimea titlului și a descrierii și câmpurile lipsă.
 - `sitemap.xml` primește data zilei la `lastmod`, deci apare modificat la fiecare regenerare, chiar fără schimbări de conținut.
-- Site-ul este online la `https://solutiivest.ro`, servit de Cloudflare. Verificat pe 28 octombrie 2026: conținutul online este `site/index.html` de la commit-ul `2c406fe`, cu adresa de e-mail rescrisă de Cloudflare la livrare, iar antetul `last-modified` al paginii online coincide exact cu ora commit-ului (20 octombrie 2026, 09:58:41 UTC), semn că publicarea este probabil legată de depozit. Proprietarul nu rulează site-ul local (decizie din 28 octombrie 2026); fluxul este regenerare, commit și push pe `main`. Dacă publicarea pe Cloudflare se face prin încărcarea directă a folderului `site/`, cum spune `CITESTE-MA.md`, push-ul singur nu actualizează site-ul; de verificat la prima modificare de conținut.
+- Site-ul este online la `https://solutiivest.ro`, servit de Cloudflare. Verificat pe 28 octombrie 2026: conținutul online este `site/index.html` de la commit-ul `2c406fe`, cu adresa de e-mail rescrisă de Cloudflare la livrare, iar Cloudflare republică automat la fiecare push pe `main`: după push-ul commit-ului `73ae292` (28 octombrie 2026, 12:57:58 UTC), antetul `last-modified` al paginii online a devenit exact ora acelui commit, în mai puțin de două minute. **Orice push pe `main` ajunge deci pe site-ul live.** Proprietarul nu rulează site-ul local (decizie din 28 octombrie 2026); fluxul este regenerare, copiere în `site/`, commit și push pe `main`.
 - Verificare locală, opțională: `porneste-site.bat` pe Windows sau `python3 -m http.server 8000 --bind 127.0.0.1 -d site` pe Linux, apoi `python3 sursa/tools/functest.py http://localhost:8000/`.
 - Playwright, cerut de `--imagini` și de `functest.py`, nu este instalat pe laptopul Linux, iar Python-ul de sistem nu are `pip`. Instalarea este o decizie separată a utilizatorului.
 - Nu am lăsat scripturi pentru validarea HTML sau pentru Lighthouse. Le-am rulat cu `npx html-validate` (fără erori) și `npx lighthouse`.
@@ -114,7 +114,7 @@ robocopy sursa\dist site /MIR
 ## Decizii tehnice
 
 - HTML static, fără CMS și fără framework. Singurul JavaScript gestionează selectorul de aplicații.
-- Găzduire planificată: Cloudflare (Workers cu fișiere statice sau Pages), care servește gratuit fișierele statice, cu domeniu propriu și SSL.
+- Găzduire: Cloudflare, legată de depozitul GitHub (republică automat la push pe `main`), pe domeniul `solutiivest.ro`, cu SSL. Verificat 28 octombrie 2026.
 - Fără formular de contact. Contactul se face prin telefon, WhatsApp și e-mail.
 - Date structurate: ProfessionalService, WebSite, WebPage și FAQPage. Google a scos rezultatele îmbogățite FAQ din 7 mai 2026, dar marcajul rămâne valid. Pentru LocalBusiness, Google cere obligatoriu adresa, deci sediul intră în cod.
 - Analiză de trafic: Cloudflare Web Analytics, fără cookie-uri, activată prin `cloudflare_analytics_token`.
@@ -129,7 +129,7 @@ robocopy sursa\dist site /MIR
    - ordinea echipamentelor (primul este singurul vizibil fără clic);
    - cele 6 facilități și cei 4 pași din „Cum lucrez” (sunt promisiuni publice);
    - răspunsurile din întrebările frecvente și intervalele de pH din etichete.
-5. Publicarea: domeniu .ro, Cloudflare, Google Search Console cu sitemap, profil Google Business.
+5. Publicarea: domeniul și Cloudflare sunt făcute, site-ul este live. Rămân Google Search Console cu sitemap și profilul Google Business, după trecerea în modul final.
 6. Opțional: planul cu pagini separate pe probleme, aplicații și industrii. Textele scoase din pagină sunt deja în `content.py`.
 
 ## Atenție
