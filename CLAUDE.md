@@ -39,11 +39,23 @@ sursa/
   src/img/             fotografia (foto.jpg, 4:5, 880 x 1100) și imaginile generate og.png și apple-touch-icon.png; build.py le copiază în dist/
   tools/fonts.py       retaie fonturile din fișierele TTF complete (nu sunt în depozit)
   tools/functest.py    test funcțional în browser
-porneste-site.bat      server local la http://localhost:8000
+porneste-site.bat      server local la http://localhost:8000 (Windows)
 CITESTE-MA.md          ghidul pentru om
 ```
 
-## Cum se lucrează (Windows)
+## Cum se lucrează
+
+Linux și macOS (laptopul de lucru din 28 octombrie 2026 este Linux Mint):
+
+```
+cd sursa
+python3 build.py            # regenerează pagina
+python3 build.py --imagini  # și imaginile; cere Playwright, vezi nota de mai jos
+cd ..
+rsync -a --delete sursa/dist/ site/
+```
+
+Windows:
 
 ```
 cd sursa
@@ -53,11 +65,14 @@ cd ..
 robocopy sursa\dist site /MIR
 ```
 
-- `build.py` scrie în `sursa/dist/` și `sursa/preview/`, nu direct în `site/`. Pasul `robocopy /MIR` este obligatoriu și șterge fonturile vechi când li se schimbă hash-ul.
-- `/MIR` șterge din `site/` tot ce nu există în `sursa/dist/`. De aceea fotografia și imaginile generate stau în `sursa/src/img/`, de unde `build.py` le copiază în `dist/` la fiecare regenerare. `--imagini` scrie imaginile noi și în `src/img/`.
+- `build.py` scrie în `sursa/dist/` și `sursa/preview/`, nu direct în `site/`. Pasul de copiere cu ștergere (`rsync --delete` sau `robocopy /MIR`) este obligatoriu și șterge fonturile vechi când li se schimbă hash-ul.
+- Copierea șterge din `site/` tot ce nu există în `sursa/dist/`. De aceea fotografia și imaginile generate stau în `sursa/src/img/`, de unde `build.py` le copiază în `dist/` la fiecare regenerare. `--imagini` scrie imaginile noi și în `src/img/`.
 - `sursa/preview/index.html` este varianta cu fonturile incluse în fișier, folosită pentru previzualizarea publicată ca artefact. Nu se urcă pe domeniu.
 - La final, `build.py` afișează modul (LUCRU sau FINAL), lungimea titlului și a descrierii și câmpurile lipsă.
-- Verificare: pornește `porneste-site.bat`, apoi `py sursa\tools\functest.py http://localhost:8000/`.
+- `sitemap.xml` primește data zilei la `lastmod`, deci apare modificat la fiecare regenerare, chiar fără schimbări de conținut.
+- Site-ul este online la `https://solutiivest.ro`, servit de Cloudflare. Verificat pe 28 octombrie 2026: conținutul online este `site/index.html` de la commit-ul `2c406fe`, cu adresa de e-mail rescrisă de Cloudflare la livrare, iar antetul `last-modified` al paginii online coincide exact cu ora commit-ului (20 octombrie 2026, 09:58:41 UTC), semn că publicarea este probabil legată de depozit. Proprietarul nu rulează site-ul local (decizie din 28 octombrie 2026); fluxul este regenerare, commit și push pe `main`. Dacă publicarea pe Cloudflare se face prin încărcarea directă a folderului `site/`, cum spune `CITESTE-MA.md`, push-ul singur nu actualizează site-ul; de verificat la prima modificare de conținut.
+- Verificare locală, opțională: `porneste-site.bat` pe Windows sau `python3 -m http.server 8000 --bind 127.0.0.1 -d site` pe Linux, apoi `python3 sursa/tools/functest.py http://localhost:8000/`.
+- Playwright, cerut de `--imagini` și de `functest.py`, nu este instalat pe laptopul Linux, iar Python-ul de sistem nu are `pip`. Instalarea este o decizie separată a utilizatorului.
 - Nu am lăsat scripturi pentru validarea HTML sau pentru Lighthouse. Le-am rulat cu `npx html-validate` (fără erori) și `npx lighthouse`.
 
 ## Modul de lucru și modul final
@@ -107,7 +122,7 @@ robocopy sursa\dist site /MIR
 
 ## Ce lipsește
 
-1. Domeniul site-ului în `site.json` (`domeniu`), singurul câmp care mai ține pagina în modul de lucru. Completate pe 20 octombrie 2026: brand, zonă, telefon, WhatsApp, timp de răspuns, ani de experiență, persoană, e-mail, industrii, datele firmei și sediul. Scoase la cererea proprietarului, tot atunci: localitățile, programul, costul evaluării și codul poștal, împreună cu textele care le foloseau (rândul „Program” din Contact și întrebarea despre costul evaluării).
+1. Domeniul site-ului în `site.json` (`domeniu`), singurul câmp care mai ține pagina în modul de lucru. Domeniul live este `solutiivest.ro` (verificat 28 octombrie 2026): pagina online are `noindex`, `robots.txt` blochează tot, iar sitemap-ul arată `https://domeniu.ro/`. Completarea câmpului trece pagina în modul final, indexabil, deci cere acordul proprietarului. Completate pe 20 octombrie 2026: brand, zonă, telefon, WhatsApp, timp de răspuns, ani de experiență, persoană, e-mail, industrii, datele firmei și sediul. Scoase la cererea proprietarului, tot atunci: localitățile, programul, costul evaluării și codul poștal, împreună cu textele care le foloseau (rândul „Program” din Contact și întrebarea despre costul evaluării).
 3. Opțional, politica de confidențialitate în `politica_url`.
 4. Confirmări de conținut de la proprietar, fiindcă textele sunt scrise pe presupuneri:
    - simbolurile de măsură din aplicații și dacă echipamentele electrice rămân;
@@ -121,7 +136,7 @@ robocopy sursa\dist site /MIR
 
 - **Remote-ul real este `origin` = `https://github.com/mihaialex93/site-tinu.git`, ramura `main`.** Inițial se plănuise depozitul `mihaialex93/tinu`.
 - `urca-pe-github.bat` a fost șters din depozit pe 20 octombrie 2026: reseta `origin` la vechea adresă `mihaialex93/tinu.git` și făcea push fără verificare. Nu se recreează.
-- `git push` dă HTTP 403 pe acest calculator din cauza interceptării TLS corporate (Zscaler), indiferent de VPN. Nu se depanează. Livrarea se face prin GitHub Git Data API, cu scriptul `api_push.py` descris în `C:\Users\mpopa\METODA-push-github.md` (în afara depozitului), rulat din terminalul utilizatorului. Commit-urile cer `[skip-audit]` în mesaj, din cauza hook-ului de audit al plugin-ului nemesis.
+- Pe laptopul Linux (din 28 octombrie 2026) `git push origin main` merge direct: `gh` este autentificat ca `mihaialex93`, iar git folosește `gh auth git-credential` pentru autentificare. Pe vechiul calculator Windows, `git push` dădea HTTP 403 din cauza interceptării TLS corporate (Zscaler), iar livrarea se făcea prin GitHub Git Data API cu un script din afara depozitului; metoda rămâne doar ca istoric. Marcajul `[skip-audit]` din mesajele de commit era cerut de hook-ul de audit al plugin-ului nemesis și este necesar doar pe calculatoarele unde plugin-ul este instalat.
 - Mesajul „doar firme” mai apare în hero („Clienți: Exclusiv firme”) și în întrebarea „Lucrați și cu persoane fizice?”. Proprietarul a cerut scoasă doar propoziția „Nu vând persoanelor fizice.” din secțiunea Facilități.
-- Imaginile din `site/` au primit metadate de proveniență C2PA la transferul pe acest calculator. Sunt valide; la următorul `py build.py --imagini` se regenerează fără ele.
-- Pagina deschisă direct de pe disc (`file://`) se vede cu fonturi de rezervă. Se verifică doar prin `porneste-site.bat`.
+- Imaginile din `site/` au primit metadate de proveniență C2PA la transferul pe acest calculator. Sunt valide; la următorul `build.py --imagini` se regenerează fără ele.
+- Pagina deschisă direct de pe disc (`file://`) se vede cu fonturi de rezervă. Se verifică doar printr-un server local (vezi „Cum se lucrează”).
