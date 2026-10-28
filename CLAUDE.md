@@ -9,7 +9,7 @@ Context de lucru pentru Claude Code. Proiectul a fost construit într-o sesiune 
 - **Ce nu este:** magazin online. Pe pagină nu apar produse, prețuri sau denumiri comerciale.
 - **Public:** exclusiv firme cu facilități: industrie alimentară, HoReCa, depozite, ateliere, service-uri auto, clădiri de birouri. Nu persoane fizice.
 - **Scop:** să fie găsit în Google pe zona lui și să primească apeluri sau mesaje pe WhatsApp. Formularul de contact a fost scos la cererea proprietarului pe 20 octombrie 2026.
-- **Stare:** versiune de lucru. Datele reale lipsesc, apar pe pagină marcate cu chenar punctat, iar indexarea este blocată automat.
+- **Stare:** online la `https://solutiivest.ro`, în modul final, indexabil, din 28 octombrie 2026. Toate câmpurile obligatorii din `site.json` sunt completate și pe pagină nu mai există texte marcate.
 
 ## Reguli fixe
 
@@ -70,14 +70,14 @@ robocopy sursa\dist site /MIR
 - `sursa/preview/index.html` este varianta cu fonturile incluse în fișier, folosită pentru previzualizarea publicată ca artefact. Nu se urcă pe domeniu.
 - La final, `build.py` afișează modul (LUCRU sau FINAL), lungimea titlului și a descrierii și câmpurile lipsă.
 - `sitemap.xml` primește data zilei la `lastmod`, deci apare modificat la fiecare regenerare, chiar fără schimbări de conținut.
-- Site-ul este online la `https://solutiivest.ro`, servit de Cloudflare. Verificat pe 28 octombrie 2026: conținutul online este `site/index.html` de la commit-ul `2c406fe`, cu adresa de e-mail rescrisă de Cloudflare la livrare, iar Cloudflare republică automat la fiecare push pe `main`: după push-ul commit-ului `73ae292` (28 octombrie 2026, 12:57:58 UTC), antetul `last-modified` al paginii online a devenit exact ora acelui commit, în mai puțin de două minute. **Orice push pe `main` ajunge deci pe site-ul live.** Proprietarul nu rulează site-ul local (decizie din 28 octombrie 2026); fluxul este regenerare, copiere în `site/`, commit și push pe `main`.
+- Site-ul este online la `https://solutiivest.ro`, servit de Cloudflare. Cloudflare rescrie adresa de e-mail la livrare (protecție anti-spam), deci HTML-ul online diferă de `site/index.html` doar acolo. Cloudflare republică automat la fiecare push pe `main`: după push-ul commit-ului `73ae292` (28 octombrie 2026, 12:57:58 UTC), antetul `last-modified` al paginii online a devenit exact ora acelui commit, în mai puțin de două minute. **Orice push pe `main` ajunge deci pe site-ul live.** Proprietarul nu rulează site-ul local (decizie din 28 octombrie 2026); fluxul este regenerare, copiere în `site/`, commit și push pe `main`.
 - Verificare locală, opțională: `porneste-site.bat` pe Windows sau `python3 -m http.server 8000 --bind 127.0.0.1 -d site` pe Linux, apoi `python3 sursa/tools/functest.py http://localhost:8000/`.
 - Playwright, cerut de `--imagini` și de `functest.py`, nu este instalat pe laptopul Linux, iar Python-ul de sistem nu are `pip`. Instalarea este o decizie separată a utilizatorului.
 - Nu am lăsat scripturi pentru validarea HTML sau pentru Lighthouse. Le-am rulat cu `npx html-validate` (fără erori) și `npx lighthouse`.
 
 ## Modul de lucru și modul final
 
-- Cât timp lipsește orice câmp din `site.json`, inclusiv `cazuri` și `foto`, pagina are `noindex`, `robots.txt` blochează tot și apare bara „Versiune de lucru”.
+- Cât timp lipsește orice câmp din `site.json`, inclusiv `cazuri` și `foto`, pagina are `noindex` și `robots.txt` blochează tot. Bara „Versiune de lucru” a fost scoasă din generator pe 20 octombrie 2026.
 - Când toate câmpurile sunt completate, același build trece automat în modul final: indexabil, `robots.txt` cu sitemap, fără marcaje.
 - `cazuri`: `null` înseamnă carduri marcate, `[]` scoate secțiunea, iar o listă înseamnă cazuri reale. Formatul este în `CITESTE-MA.md`. Proprietarul a cerut secțiunea scoasă pe 20 octombrie 2026, deci valoarea este `[]`.
 - `politica_url` este opțional: dacă este completat, apare un link în subsol. Fără formular, pagina nu colectează date.
@@ -87,7 +87,7 @@ robocopy sursa\dist site /MIR
 
 ## Ce conține pagina acum, în ordine
 
-1. Bara „Versiune de lucru” (doar în modul de lucru).
+1. Fără bara „Versiune de lucru”, scoasă din generator pe 20 octombrie 2026.
 2. Antetul: brand, meniu (Aplicații, Domenii, Cum lucrez, Întrebări, Contact) și telefon.
 3. Hero: titlul H1, textul de deschidere, butoanele „Sunați” și „Descrieți problema”, rândurile Clienți, Zonă și Răspuns.
    - „Ce aveți de curățat?”: 7 etichete cu interval de pH. Duc la secțiunea Contact.
@@ -122,14 +122,14 @@ robocopy sursa\dist site /MIR
 
 ## Ce lipsește
 
-1. Domeniul site-ului în `site.json` (`domeniu`), singurul câmp care mai ține pagina în modul de lucru. Domeniul live este `solutiivest.ro` (verificat 28 octombrie 2026): pagina online are `noindex`, `robots.txt` blochează tot, iar sitemap-ul arată `https://domeniu.ro/`. Completarea câmpului trece pagina în modul final, indexabil, deci cere acordul proprietarului. Completate pe 20 octombrie 2026: brand, zonă, telefon, WhatsApp, timp de răspuns, ani de experiență, persoană, e-mail, industrii, datele firmei și sediul. Scoase la cererea proprietarului, tot atunci: localitățile, programul, costul evaluării și codul poștal, împreună cu textele care le foloseau (rândul „Program” din Contact și întrebarea despre costul evaluării).
+1. Datele obligatorii sunt complete. Domeniul `solutiivest.ro` a fost completat pe 28 octombrie 2026, la cererea proprietarului, iar pagina a trecut în modul final, indexabil. Completate pe 20 octombrie 2026: brand, zonă, telefon, WhatsApp, timp de răspuns, ani de experiență, persoană, e-mail, industrii, datele firmei și sediul. Scoase la cererea proprietarului, tot atunci: localitățile, programul, costul evaluării și codul poștal, împreună cu textele care le foloseau (rândul „Program” din Contact și întrebarea despre costul evaluării).
 3. Opțional, politica de confidențialitate în `politica_url`.
 4. Confirmări de conținut de la proprietar, fiindcă textele sunt scrise pe presupuneri:
    - simbolurile de măsură din aplicații și dacă echipamentele electrice rămân;
    - ordinea echipamentelor (primul este singurul vizibil fără clic);
    - cele 6 facilități și cei 4 pași din „Cum lucrez” (sunt promisiuni publice);
    - răspunsurile din întrebările frecvente și intervalele de pH din etichete.
-5. Publicarea: domeniul și Cloudflare sunt făcute, site-ul este live. Rămân Google Search Console cu sitemap și profilul Google Business, după trecerea în modul final.
+5. Publicarea: domeniul și Cloudflare sunt făcute, site-ul este live și indexabil. Rămân Google Search Console (proprietatea `solutiivest.ro`, trimiterea `sitemap.xml`, cererea de indexare a paginii) și profilul Google Business. Ambele cer contul Google al proprietarului.
 6. Opțional: planul cu pagini separate pe probleme, aplicații și industrii. Textele scoase din pagină sunt deja în `content.py`.
 
 ## Atenție

@@ -7,7 +7,7 @@
 
 ## Starea actuală
 
-Versiune de lucru. Datele lipsă apar pe pagină marcate cu chenar punctat, iar pagina este blocată la indexare în două locuri: eticheta `robots` din pagină și fișierul `robots.txt`. Blocajul dispare automat la prima generare cu toate datele completate.
+Online la `https://solutiivest.ro`, indexabil din 28 octombrie 2026. Dacă un câmp obligatoriu din `site.json` rămâne vreodată gol, pagina revine automat în versiunea de lucru: datele lipsă apar marcate cu chenar punctat, iar indexarea se blochează în două locuri, eticheta `robots` din pagină și fișierul `robots.txt`.
 
 ## Date de completat în `sursa/site.json`
 
@@ -53,8 +53,8 @@ Dublu clic pe `porneste-site.bat`. Pornește serverul inclus în Python, doar pe
 
 ## Publicare
 
-1. Domeniu `.ro`, scurt.
-2. Cloudflare, secțiunea Workers & Pages: se încarcă folderul `site/`, apoi se leagă domeniul.
+1. Domeniu `.ro`, scurt. Făcut: `solutiivest.ro`.
+2. Cloudflare, legat de depozitul GitHub: fiecare push pe `main` republică site-ul în câteva minute. Făcut.
 3. După lansare: Google Search Console (se trimite `sitemap.xml`), profil Google Business, verificare cu Rich Results Test.
 
 ## Regenerare
