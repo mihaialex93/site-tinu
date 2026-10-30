@@ -31,8 +31,9 @@ Online la `https://solutiivest.ro`, indexabil din 28 octombrie 2026. Dacă un c�
 | `domeniu` | Domeniul, fără https | „exemplu.ro” |
 | `firma_denumire`, `firma_cui`, `firma_reg_com` | Datele de identificare ale firmei | text |
 | `sediu_strada`, `sediu_localitate`, `sediu_judet` | Sediul social | text |
-| `politica_url` | Opțional, adresa politicii de confidențialitate; dacă e completată, apare link în subsol | „confidentialitate.html” |
+| `politica_url` | Opțional, adresa politicii de confidențialitate; dacă e completată, apare link în subsol. Valoarea „/confidentialitate” generează și pagina, din `confidentialitate.py` | „/confidentialitate” |
 | `cloudflare_analytics_token` | Opțional, analiză de trafic fără cookie-uri | cod |
+| `google_analytics_id` | Opțional, Google Analytics 4 cu banner de acord pentru cookie-uri | „G-XXXXXXXXXX” |
 
 Un caz arată așa:
 

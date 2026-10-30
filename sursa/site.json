@@ -30,7 +30,8 @@
   "sediu_localitate": "Timișoara",
   "sediu_judet": "Timiș",
 
-  "politica_url": null,
+  "politica_url": "/confidentialitate",
 
-  "cloudflare_analytics_token": null
+  "cloudflare_analytics_token": null,
+  "google_analytics_id": "G-VHGQ135GDB"
 }

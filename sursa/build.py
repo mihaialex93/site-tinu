@@ -7,6 +7,8 @@ Rulare:  python3 build.py            -> doar fișierele
 import base64, datetime, hashlib, html, json, os, re, shutil, sys
 
 import content as C
+import analiza as A
+import confidentialitate as P
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(ROOT, "src")
@@ -32,7 +34,7 @@ LABELS = {
     "sediu_localitate": "[localitatea]",
     "sediu_judet": "[județul]",
 }
-OPTIONAL = {"whatsapp", "linkedin", "cloudflare_analytics_token", "telefon_international", "judete",
+OPTIONAL = {"whatsapp", "linkedin", "cloudflare_analytics_token", "google_analytics_id", "telefon_international", "judete",
             "program_zile", "program_deschidere", "program_inchidere", "_nota"}
 missing = [k for k in LABELS if not SITE.get(k)]
 if SITE.get("telefon_afisat") and not SITE.get("telefon_international"):
@@ -106,6 +108,7 @@ def fmt_text(text):
 
 
 TEL_HREF = f'tel:{SITE["telefon_international"]}' if SITE.get("telefon_international") else "#contact"
+GA_ID = A.ga_id(SITE)  # Google Analytics cu acordul vizitatorului, vezi analiza.py
 DOMAIN = SITE.get("domeniu") or "domeniu.ro"
 BASE = f"https://{DOMAIN}/"
 
@@ -493,7 +496,19 @@ def html_faq():
 </section>'''
 
 
-def html_contact():
+def html_footer(cookie_button):
+    privacy = (f' <a href="{esc(SITE["politica_url"])}">Politica de confidențialitate</a>.'
+               if SITE.get("politica_url") else "")
+    settings = A.footer_button(GA_ID) if cookie_button else ""
+    return f'''  <footer class="wrap foot">
+    <div class="foot-in">
+      <p>{H("firma_denumire")}, CUI {H("firma_cui")}, nr. Reg. Com. {H("firma_reg_com")}. Sediu: {H("sediu_strada")}, {H("sediu_localitate")}, jud. {H("sediu_judet")}.{privacy}</p>
+      <p>© {datetime.date.today().year} {H("brand")}{settings}</p>
+    </div>
+  </footer>'''
+
+
+def html_contact(preview=False):
     """Contact: telefonul mare și căile de contact în stânga, „Ce îmi spuneți la primul telefon” ca panou în dreapta.
     Formularul a fost scos la cererea proprietarului pe 20 octombrie 2026."""
     ways = []
@@ -505,8 +520,6 @@ def html_contact():
     email = SITE.get("email")
     ways.append(f'<div><dt>E-mail</dt><dd>{f"<a href=\"mailto:{esc(email)}\">{esc(email)}</a>" if email else H("email")}</dd></div>')
     ways.append(f'<div><dt>Zonă</dt><dd>{H("zona")}</dd></div>')
-    privacy = (f' <a href="{esc(SITE["politica_url"])}">Politica de confidențialitate</a>.'
-               if SITE.get("politica_url") else "")
     return f'''<section class="band" id="contact">
   <div class="wrap sec contact">
     <div>
@@ -523,12 +536,7 @@ def html_contact():
       <ul>{"".join(f"<li>{esc(n)}</li>" for n in C.NEED)}</ul>
     </div>
   </div>
-  <footer class="wrap foot">
-    <div class="foot-in">
-      <p>{H("firma_denumire")}, CUI {H("firma_cui")}, nr. Reg. Com. {H("firma_reg_com")}. Sediu: {H("sediu_strada")}, {H("sediu_localitate")}, jud. {H("sediu_judet")}.{privacy}</p>
-      <p>© {datetime.date.today().year} {H("brand")}</p>
-    </div>
-  </footer>
+{html_footer(not preview)}
 </section>'''
 
 
@@ -543,7 +551,7 @@ def html_body(preview):
     # Bara „Versiune de lucru” a fost scoasă la cererea proprietarului pe 20 octombrie 2026. Marcajele și noindex rămân.
     draft = ""
     parts = [html_header(), "<main id=\"continut\">", html_hero(), html_problems(), html_apps(), html_usual(), html_facilities(),
-             html_process(), html_cases(), html_about(), html_faq(), "</main>", html_contact(), html_dock()]
+             html_process(), html_cases(), html_about(), html_faq(), "</main>", html_contact(preview), html_dock()]
     return f'<a class="skip" href="#continut">Salt la conținut</a>\n{draft}' + "\n".join(parts)
 
 
@@ -598,11 +606,15 @@ def json_ld():
 
 
 # ---------------------------------------------------------------- pagini
+def font_preload(prefix=""):
+    return "\n".join(
+        f'<link rel="preload" href="{prefix}fonts/{hashed(name)}" as="font" type="font/woff2" crossorigin>' for _, name, _ in reversed(FONTS))
+
+
 def page_production():
     title, desc = fmt_text(C.TITLE), fmt_text(C.DESCRIPTION)
     robots = "noindex, nofollow" if DRAFT else "index, follow, max-image-preview:large"
-    preload = "\n".join(
-        f'<link rel="preload" href="fonts/{hashed(name)}" as="font" type="font/woff2" crossorigin>' for _, name, _ in reversed(FONTS))
+    preload = font_preload()
     token = SITE.get("cloudflare_analytics_token")
     analytics = (f'<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon=\'{{"token": "{esc(token)}"}}\'></script>'
                  if token else "<!-- Analiză de trafic fără cookie-uri: se activează din site.json (cloudflare_analytics_token) sau direct din panoul Cloudflare. -->")
@@ -611,7 +623,7 @@ def page_production():
 <html lang="ro">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">{A.head(GA_ID)}
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(desc)}">
 <meta name="robots" content="{robots}">
@@ -631,13 +643,15 @@ def page_production():
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<style>{build_css(False)}</style>
+<style>{build_css(False)}{minify_css(A.css(GA_ID))}</style>
 <script type="application/ld+json">{json_ld()}</script>
 </head>
 <body>
 {html_body(False)}
 <script>{js}</script>
 {analytics}
+{A.banner(GA_ID, SITE.get("politica_url"))}
+{A.script(GA_ID, SRC)}
 </body>
 </html>
 '''
@@ -650,6 +664,13 @@ def page_preview():
 {html_body(True)}
 <script>{js}</script>
 '''
+
+
+def page_privacy():
+    """Politica de confidențialitate, cu aceleași stiluri, antet și subsol ca prima pagină."""
+    header = html_header().replace('href="#', 'href="/#')
+    return P.render(fmt_html, esc, build_css(False) + minify_css(A.css(GA_ID)), font_preload("/"), A.head(GA_ID), header,
+                    html_footer(True), A.banner(GA_ID, SITE.get("politica_url")), A.script(GA_ID, SRC), BASE, T("brand"))
 
 
 PAGE_404 = f'''<!DOCTYPE html>
@@ -691,6 +712,8 @@ def main():
     write(os.path.join(DIST, "index.html"), page_production())
     write(os.path.join(PREVIEW, "index.html"), page_preview())
     write(os.path.join(DIST, "404.html"), PAGE_404)
+    if (SITE.get("politica_url") or "").strip("/") == P.PATH:
+        write(os.path.join(DIST, P.PATH + ".html"), page_privacy())
     write(os.path.join(DIST, "favicon.svg"), FAVICON)
     robots = "User-agent: *\nDisallow: /\n" if DRAFT else f"User-agent: *\nAllow: /\n\nSitemap: {BASE}sitemap.xml\n"
     write(os.path.join(DIST, "robots.txt"), robots)

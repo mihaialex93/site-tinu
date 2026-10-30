@@ -19,13 +19,14 @@ Context de lucru pentru Claude Code. Proiectul a fost construit într-o sesiune 
 4. **Informațiile tehnice rămân orientative.** Nota de sub „Aplicații pe echipamente” rămâne, fiindcă acoperă răspunderea pentru sfaturile publicate.
 5. **`site/` este generat.** Nu se editează de mână. Se modifică sursa, se regenerează, apoi se copiază rezultatul.
 6. **Fără `git push --force`** și fără rescrierea istoricului.
-7. **Modificările SEO nu schimbă nimic din ce se vede pe site** (decizie din 30 octombrie 2026). Se lucrează doar în antet, în datele structurate, în `sitemap.xml` și `robots.txt` și în afara site-ului: Cloudflare, Search Console, Google Business. Înainte de publicare se verifică faptul că textul vizibil și corpul paginii au rămas identice.
+7. **Modificările SEO nu schimbă nimic din ce se vede pe site** (decizie din 30 octombrie 2026). Se lucrează doar în antet, în datele structurate, în `sitemap.xml` și `robots.txt` și în afara site-ului: Cloudflare, Search Console, Google Business. Înainte de publicare se verifică faptul că textul vizibil și corpul paginii au rămas identice. Excepție cerută explicit pe 30 octombrie 2026, pentru Google Analytics: bannerul de acord pentru cookie-uri, linkurile „Politica de confidențialitate” și „Setări cookie-uri” din subsol și pagina `/confidentialitate`.
 
 ## Structura
 
 ```
 site/                  fișierele care se urcă pe domeniu (generate)
   index.html           pagina, cu CSS și JS incluse
+  confidentialitate.html  politica de confidențialitate, servită la /confidentialitate (noindex)
   fonts/               Sofia Sans, tăiată la caracterele românești, cu nume care includ hash-ul
   _headers             antete pentru Cloudflare (securitate, cache fonturi, noindex pe pages.dev)
   robots.txt, sitemap.xml, 404.html, favicon.svg, apple-touch-icon.png, og.png
@@ -33,9 +34,12 @@ sursa/
   site.json            datele reale; null înseamnă câmp marcat pe pagină
   content.py           toate textele și comutatoarele de secțiuni
   build.py             generatorul: date + texte + stiluri -> HTML
+  analiza.py           Google Analytics cu acord: scriptul din antet, bannerul, stilurile lui, butonul din subsol
+  confidentialitate.py textul și șablonul paginii de politică de confidențialitate
   images.py            generează og.png și apple-touch-icon.png (Playwright)
   src/styles.css       stilurile, cu tokenuri în :root
   src/script.js        selectorul de aplicații (un singur echipament deschis pe ecran lat)
+  src/analiza.js       bannerul de acord și evenimentele pentru clicurile de contact
   src/fonts/           fonturile sursă tăiate (licență SIL OFL)
   src/img/             fotografia (foto.jpg, 4:5, 880 x 1100) și imaginile generate og.png și apple-touch-icon.png; build.py le copiază în dist/
   tools/fonts.py       retaie fonturile din fișierele TTF complete (nu sunt în depozit)
@@ -118,18 +122,21 @@ robocopy sursa\dist site /MIR
 - Găzduire: Cloudflare, legată de depozitul GitHub (republică automat la push pe `main`), pe domeniul `solutiivest.ro`, cu SSL. Verificat 28 octombrie 2026.
 - Fără formular de contact. Contactul se face prin telefon, WhatsApp și e-mail.
 - Date structurate: ProfessionalService, WebSite, WebPage și FAQPage. Google a scos rezultatele îmbogățite FAQ din 7 mai 2026, dar marcajul rămâne valid. Pentru LocalBusiness, Google cere obligatoriu adresa, deci sediul intră în cod. Din 30 octombrie 2026, zona deservită (`areaServed`) este lista județelor din `judete`, iar fără `judete` rămâne `zona`. `knowsAbout` include curățarea cu gheață carbonică.
+- Google Analytics 4 (`google_analytics_id`, din 30 octombrie 2026), prin `analiza.py`: modul de consimțământ pornește cu totul refuzat, iar analiza se acceptă doar din banner. Alegerea se păstrează în browser (`localStorage`, cheia `analiza`); la refuz se șterg cookie-urile `_ga`. Clicurile pe telefon, WhatsApp și e-mail trimit evenimentele `contact_telefon`, `contact_whatsapp` și `contact_email`, cu parametrul `sectiune`. Testat local pe 30 octombrie 2026, cu un ID de test: banner, refuz, acord, retragere, evenimente.
 - Analiză de trafic: Cloudflare Web Analytics, fără cookie-uri. Codul se pune în `cloudflare_analytics_token` sau se activează direct din panoul Cloudflare. Pe 30 octombrie 2026 câmpul era gol, deci măsurarea nu era activă.
 - Măsurători Lighthouse pe mobil, server local, 8 octombrie 2026: performanță, accesibilitate și bune practici 100. SEO 100 pe o generare de test în modul final (66 în modul de lucru, intenționat). LCP 1,5 s, CLS 0, circa 106 KB transferați.
 
 ## Ce lipsește
 
 1. Datele obligatorii sunt complete. Domeniul `solutiivest.ro` a fost completat pe 28 octombrie 2026, la cererea proprietarului, iar pagina a trecut în modul final, indexabil. Completate pe 20 octombrie 2026: brand, zonă, telefon, WhatsApp, timp de răspuns, ani de experiență, persoană, e-mail, industrii, datele firmei și sediul. Scoase la cererea proprietarului, tot atunci: localitățile, programul, costul evaluării și codul poștal, împreună cu textele care le foloseau (rândul „Program” din Contact și întrebarea despre costul evaluării). Pe 28 octombrie 2026 proprietarul a precizat zona: Zona de Vest, adică județele Timiș, Arad, Hunedoara și Caraș-Severin, trecute în `judete`. Din 30 octombrie 2026 apar în descrierea pentru Google și în datele structurate. Textele vizibile spun în continuare „Zona de Vest”.
-3. Opțional, politica de confidențialitate în `politica_url`.
+3. Politica de confidențialitate se generează din `confidentialitate.py` la `/confidentialitate` (din 30 octombrie 2026). Textul descrie ce face site-ul tehnic, dar părțile despre contact și păstrarea datelor descriu practica proprietarului și trebuie confirmate de el.
 4. Confirmările de conținut sunt făcute: pe 28 octombrie 2026 proprietarul a confirmat toate textele de pe pagină. Textele scoase de pe pagină și păstrate în `content.py` (`PROBLEMS` și câmpul `how` din `APPS`) nu sunt acoperite de confirmare.
 5. Publicarea: domeniul și Cloudflare sunt făcute, site-ul este live și indexabil. Rămân Google Search Console (proprietatea `solutiivest.ro`, trimiterea `sitemap.xml`, cererea de indexare a paginii) și profilul Google Business. Ambele cer contul Google al proprietarului. Profilul Google Business se face ca firmă care merge la client: adresa ascunsă, fiindcă proprietarul nu primește clienți la sediu, zona formată din cele patru județe și curățarea cu gheață carbonică printre servicii (precizări din 28 octombrie 2026).
 6. Planul SEO din 28 octombrie 2026 (raport PDF trimis atunci, care nu e în depozit) se aplică doar în partea nevizibilă, conform regulii 7. Partea nevizibilă e făcută din 30 octombrie 2026: descrierea, zona deservită și `knowsAbout`. Nu se fac: județele în textele vizibile, secțiunea despre curățarea cu gheață carbonică și paginile separate. Serviciul de gheață carbonică intră doar în profilul Google Business. Oferta de serviciu (`makesOffer`) nu se adaugă în datele structurate, fiindcă pe pagină serviciul apare doar ca experiență.
-7. `www.solutiivest.ro` nu are înregistrare DNS (verificat pe 30 octombrie 2026): se adaugă în Cloudflare, cu redirecționare permanentă spre `solutiivest.ro`.
+7. Făcut pe 30 octombrie 2026: `www.solutiivest.ro` redirecționează permanent (301) spre `solutiivest.ro`, prin regula Cloudflare „Redirect from WWW to root” și o înregistrare `www` trecută prin Cloudflare. Calea și parametrii se păstrează.
 8. Fotografii de la lucrări: proprietarul nu are încă, dar poate face (28 octombrie 2026). Merg întâi în profilul Google Business, apoi pe site.
+9. Setări în Google Analytics, din contul proprietarului: păstrarea datelor la 14 luni (politica spune „cel mult 14 luni”), evenimentele de contact marcate ca evenimente cheie după ce apar, legătura cu Search Console, semnalele Google lăsate oprite.
+10. Înregistrarea SPF a domeniului conține `include:_://google.com`, un domeniu inexistent (verificat pe 30 octombrie 2026), deci SPF dă eroare permanentă. Se corectează în Cloudflare, la DNS: `include:_spf.google.com` dacă e-mailurile pleacă prin Google, altfel se scoate.
 
 ## Atenție
 
