@@ -2,8 +2,8 @@
 
 TITLE = "Soluții chimice pentru industrie și instituții, {zona}"
 DESCRIPTION = (
-    "Soluții chimice pentru mentenanță industrială, întreținere instituțională, curățare "
-    "și dezinfecție în industria alimentară, în {zona}. Doar firme."
+    "Soluții chimice pentru industrie, instituții și industria alimentară: mentenanță, curățare, "
+    "dezinfecție. {judete_lista}. Doar firme."
 )
 PREVIEW_TITLE = "Site soluții chimice profesionale"
 
@@ -156,7 +156,7 @@ KNOWS_ABOUT = [
     "curățarea schimbătoarelor de căldură", "pasivarea inoxului", "degresarea pieselor metalice",
     "detergenți profesionali", "curățare industrială", "detartrare", "degresare industrială",
     "igienizare în industria alimentară", "instalații de spălare CIP", "întreținerea pardoselilor industriale",
-    "curățarea bazinelor de apă potabilă",
+    "curățarea bazinelor de apă potabilă", "curățare cu gheață carbonică",
 ]
 
 

@@ -16,6 +16,7 @@ Online la `https://solutiivest.ro`, indexabil din 28 octombrie 2026. Dacă un c�
 | `brand` | Numele sub care apare site-ul | text scurt |
 | `persoana` | Prenume și nume | text |
 | `zona` | Zona deservită, cum se citește după „din” | „județul X”, „zona X” |
+| `judete` | Opțional, județele din zonă. Apar în descrierea pentru Google și în datele structurate | `["Timiș", "Arad"]` |
 | `telefon_afisat` | Telefonul, cum se vede pe pagină | „07xx xxx xxx” |
 | `telefon_international` | Același număr, pentru apel direct | „+407xxxxxxxx” |
 | `whatsapp` | Opțional, numărul de WhatsApp | „+407xxxxxxxx” |
@@ -39,13 +40,9 @@ Un caz arată așa:
 {"facilitate": "Tip de facilitate, localitate", "problema": "Ce nu mergea.", "schimbare": "Ce s-a schimbat.", "rezultat": "Cifra măsurată."}
 ```
 
-## Texte scrise pe presupuneri, de confirmat
+## Confirmarea textelor
 
-- Cele 7 probleme și intervalele de pH din etichetele de sub titlu: de aliniat cu portofoliul real. Secțiunea detaliată cu aceste probleme este scoasă din pagină. Textele ei rămân în `content.py` și revin cu `SHOW_PROBLEMS = True`.
-- Cele 6 tipuri de facilități.
-- Cele 8 aplicații pe echipamente, inclusiv echipamentele electrice: rămân doar cele pentru care ai produse.
-- Pașii din „Cum lucrez”: vizită la fața locului, probă înainte de comandă, livrare cu fișă tehnică și fișă cu date de securitate, revenire după livrare. Sunt promisiuni publice, rămân doar cele respectate.
-- Răspunsurile din „Întrebări frecvente”.
+Pe 28 octombrie 2026 proprietarul a confirmat toate textele de pe pagină. Textele scoase de pe pagină și păstrate în `content.py` nu sunt acoperite de confirmare: secțiunea detaliată cu cele 7 probleme (revine cu `SHOW_PROBLEMS = True`) și coloana „Cum se curăță” din aplicații (revine cu `APPS_SHOW_HOW = True`). Se confirmă separat înainte să revină pe site.
 
 ## Pornire pe calculatorul tău
 

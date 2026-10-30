@@ -4,6 +4,7 @@
   "brand": "Soluții Vest",
   "persoana": "Florentin Cocrean (Tinu)",
   "zona": "Zona de Vest",
+  "judete": ["Timiș", "Arad", "Hunedoara", "Caraș-Severin"],
 
   "telefon_afisat": "+40 720 058 673",
   "telefon_international": "+40720058673",

@@ -32,7 +32,7 @@ LABELS = {
     "sediu_localitate": "[localitatea]",
     "sediu_judet": "[județul]",
 }
-OPTIONAL = {"whatsapp", "linkedin", "cloudflare_analytics_token", "telefon_international",
+OPTIONAL = {"whatsapp", "linkedin", "cloudflare_analytics_token", "telefon_international", "judete",
             "program_zile", "program_deschidere", "program_inchidere", "_nota"}
 missing = [k for k in LABELS if not SITE.get(k)]
 if SITE.get("telefon_afisat") and not SITE.get("telefon_international"):
@@ -76,6 +76,8 @@ def T(key):
     """Valoare pentru text simplu (meta, date structurate)."""
     if key == "ani_text":
         return years_text() or LABELS["ani_experienta"] + " ani"
+    if key == "judete_lista":  # județele din zonă, separate prin virgulă; fără ele rămâne zona
+        return ", ".join(SITE.get("judete") or []) or T("zona")
     return str(SITE.get(key) or LABELS[key])
 
 
@@ -569,7 +571,8 @@ def json_ld():
             "addressRegion": T("sediu_judet"),
             "addressCountry": "RO",
         },
-        "areaServed": {"@type": "AdministrativeArea", "name": T("zona")},
+        "areaServed": ([{"@type": "AdministrativeArea", "name": f"Județul {j}"} for j in SITE.get("judete") or []]
+                       or {"@type": "AdministrativeArea", "name": T("zona")}),
         "knowsAbout": C.KNOWS_ABOUT,
     }
     if SITE.get("program_zile") and SITE.get("program_deschidere") and SITE.get("program_inchidere"):
